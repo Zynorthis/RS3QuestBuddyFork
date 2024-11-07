@@ -44,6 +44,8 @@ import { Image } from "./ImageInterface.tsx";
 import QuestIcon from "./../QuestIconEdited.png";
 import ColorCalculator from "../Handlers/POGCalc.tsx";
 import useGridDisclosure from "./useGridModal.tsx";
+import { QuestSteps } from "./QuestSteps.tsx";
+import { QuestDetails } from "./QuestDetails.tsx";
 
 const QuestPage: React.FC = () => {
 	// State and variables
@@ -65,7 +67,7 @@ const QuestPage: React.FC = () => {
 	const details = useQuestStepStore();
 	const imageDetails = UseImageStore();
 	const stepRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
-	const QuestDetails = useQuestDetailsStore.getState().questDetails;
+	const QuestDetailsData = useQuestDetailsStore.getState().questDetails;
 	const [isHighlight, setIsHighlight] = useState(false);
 	let isPog = false;
 	let gridActive = false;
@@ -528,9 +530,7 @@ const QuestPage: React.FC = () => {
 					<Button
 						variant="outline"
 						color={hasButtonColor ? userButtonColor : ""}
-						onClick={() => {
-							toggleShowStepReq();
-						}}
+						onClick={toggleShowStepReq}
 					>
 						Show Quest Steps
 					</Button>
@@ -544,7 +544,8 @@ const QuestPage: React.FC = () => {
 					</Button>
 				)}
 			</Flex>
-			{showStepReq && Array.isArray(QuestDetails) ? (
+			{showStepReq === true ? (<QuestSteps />) : (<QuestDetails />) }
+			{showStepReq && Array.isArray(QuestDetailsData) ? (
 				<>
 					<Accordion
 						defaultValue=""
@@ -563,7 +564,7 @@ const QuestPage: React.FC = () => {
 							<Accordion.Panel>
 								<div>
 									<ul>
-										{QuestDetails.map((quest, questIndex) => {
+										{QuestDetailsData.map((quest, questIndex) => {
 											return (
 												<React.Fragment key={questIndex}>
 													{quest.Requirements.map((requirement, requirementIndex) => {
@@ -715,7 +716,7 @@ const QuestPage: React.FC = () => {
 							</Accordion.Control>
 							<Accordion.Panel c={hasColor ? userColor : ""}>
 								<div>
-									{QuestDetails.map((value) => {
+									{QuestDetailsData.map((value) => {
 										return value.StartPoint;
 									})}
 								</div>
@@ -732,7 +733,7 @@ const QuestPage: React.FC = () => {
 							</Accordion.Control>
 							<Accordion.Panel c={hasColor ? userColor : ""}>
 								<div>
-									{QuestDetails.map((value) => {
+									{QuestDetailsData.map((value) => {
 										return value.MemberRequirement;
 									})}
 								</div>
@@ -749,7 +750,7 @@ const QuestPage: React.FC = () => {
 							</Accordion.Control>
 							<Accordion.Panel c={hasColor ? userColor : ""}>
 								<div>
-									{QuestDetails.map((value) => {
+									{QuestDetailsData.map((value) => {
 										return value.OfficialLength;
 									})}
 								</div>
@@ -767,7 +768,7 @@ const QuestPage: React.FC = () => {
 							<Accordion.Panel c={hasColor ? userColor : ""}>
 								<div>
 									<List listStyleType="none">
-										{QuestDetails.map((quest, questIndex) => {
+										{QuestDetailsData.map((quest, questIndex) => {
 											return (
 												<React.Fragment key={questIndex}>
 													{quest.ItemsRequired.map((item, itemIndex) => {
@@ -801,7 +802,7 @@ const QuestPage: React.FC = () => {
 							<Accordion.Panel c={hasColor ? userColor : ""}>
 								<div>
 									<List listStyleType="none">
-										{QuestDetails.map((quest, questIndex) => {
+										{QuestDetailsData.map((quest, questIndex) => {
 											return (
 												<React.Fragment key={questIndex}>
 													{quest.Recommended.map((item, itemIndex) => {
@@ -834,7 +835,7 @@ const QuestPage: React.FC = () => {
 							<Accordion.Panel c={hasColor ? userColor : ""}>
 								<div>
 									<List listStyleType="none">
-										{QuestDetails.map((quest, questIndex) => (
+										{QuestDetailsData.map((quest, questIndex) => (
 											<React.Fragment key={questIndex}>
 												{quest.EnemiesToDefeat.map((value, enemiesIndex) => {
 													const UniqueID = `${questIndex}-${enemiesIndex}`;
