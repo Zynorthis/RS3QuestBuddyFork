@@ -18,16 +18,17 @@ export const AltGuard = () => {
 		<>
 			<div className="App">
 				<h1>ALT1 not found</h1>
+				<h2>~ Zynorthis Fork ~</h2>
 				<p>
 					<a
 						href={`alt1://addapp/${window.location.protocol}//${
 							window.location.host
 						}/${
-							!window.location.host.includes("localhost")
+							!window.location.host.includes("127.0.0.1")
 								? "RS3QuestBuddy/" //Include repo name (this is only for github pages)
 								: ""
 						}appconfig${
-							!window.location.host.includes("localhost")
+							!window.location.host.includes("127.0.0.1")
 								? ".prod" //Target prod (this is only for github pages)
 								: ""
 						}.json`}
